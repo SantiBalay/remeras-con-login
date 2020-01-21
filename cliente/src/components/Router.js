@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import Axios from 'axios'
 
 import Nosotros from './Nosotros'
 import Contacto from './Contacto'
-import Error from './Error'
 import Productos from './Productos';
 import Callback from './Callback'
 import ProductoShowcase from './ProductoShowcase'
 import Header from './Header';
 import Nav from './Nav'
 
-
-import dataProductos from '../data/data.json'
-
-
-
-
+import ProtectedRoute from './ProtectedRoute';
 
 class Router extends Component {
 
@@ -24,10 +19,25 @@ class Router extends Component {
         terminoBusqueda : ''
     }
 
+    queryAPI = () => { // Le pego a mi serverExpress con el auth token que genero en el logeo. 
+
+        const headers = {
+            'Authorization': `Bearer ${this.props.auth.getAccesToken()}`
+        }
+
+        const url = 'http://localhost:5000/productos'
+
+        Axios.get(url, {headers})
+            .then( response =>  this.setState({
+                productos: response.data
+            }) 
+            
+            )
+
+    }
+
     componentWillMount() {
-        this.setState({
-          productos : dataProductos
-        })
+        this.queryAPI()
     }
 
     busquedaProducto = (busqueda) => {
@@ -56,7 +66,6 @@ class Router extends Component {
         }
 
 
-
         return ( 
             <BrowserRouter>
                     
@@ -65,32 +74,8 @@ class Router extends Component {
                 <Nav auth={this.props.auth}/>
 
                 <Switch>
-                    
-                    <Route exact path="/" render={ (props) => (
-                        <Productos
-                        busqueda={this.busquedaProducto}
-                        productos = {filtrado}
-                        />
-                    )}/>
 
-                    <Route exact path="/contacto" render={ () => (
-                        <Contacto
-                            auth = {this.props.auth}
-
-                        />
-                    )}/>
-
-                    <Route exact path="/nosotros" component={Nosotros}/>
-
-                    <Route exact path="/productos" render={ () => (
-                        <Productos
-                            productos = {filtrado}
-                            busqueda={this.busquedaProducto}
-
-                        />
-                    )}/>
-
-                    <Route exact path="/producto/:productoId" render={ (props) => {
+                    {/* <Route exact path="/producto/:productoId" render={ (props) => {
                         
                         const idProd = props.match.params.productoId
 
@@ -98,19 +83,54 @@ class Router extends Component {
                             data={this.state.productos[idProd]}
                         />)
                     }}
+                    /> */}
+
+                    <ProtectedRoute
+                        exact path="/producto/:productoId"
+                        auth = {this.props.auth}
+                        comp={ProductoShowcase}
+                        productos={this.state.productos}
+                    />
+
+                    <ProtectedRoute
+                        exact path="/productos"
+                        auth = {this.props.auth}
+                        comp={Productos}
+                        busqueda={this.busquedaProducto}
+                        productos = {filtrado}
+                    />
+
+                    <ProtectedRoute
+                        exact path="/"
+                        auth = {this.props.auth}
+                        comp={Productos}
+                        busqueda={this.busquedaProducto}
+                        productos = {filtrado}
+                    />
+
+                    <ProtectedRoute
+                        exact path="/nosotros"
+                        auth = {this.props.auth}
+                        comp={Nosotros}                   
+                    />
+
+                    <ProtectedRoute
+                        exact path="/contacto"
+                        comp={Contacto}
+                        auth = {this.props.auth}
                     />
 
                     <Route exact path="/callback" render={ (props) => {
-                        
-
-                        return (<Callback
-                            data={"Algo"}
-                        />)
+                        return (
+                                <Callback
+                                    pegarleApi = {this.queryAPI}
+                                 />
+                        )
                     }}
                     />
 
 
-                    <Route component={Error}/>
+
                 </Switch>
             
             </BrowserRouter>

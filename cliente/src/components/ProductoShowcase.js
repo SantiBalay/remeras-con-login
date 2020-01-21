@@ -13,12 +13,12 @@ class ProductoShowcase extends Component {
             return null
         }
 
-        const {descripcion,id,imagen,nombre,precio} = this.props.data
+        const {descripcion,imagen,nombre,precio} = this.props.data
         
         return ( 
            <div className="info-producto">
                 <div className="imagen">
-                     <img src={`/img/${imagen}.png`}/>
+                     <img src={`/img/${imagen}.png`} alt="remera"/>
                 </div>
 
                 <div className="info">

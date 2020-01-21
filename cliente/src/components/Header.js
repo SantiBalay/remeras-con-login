@@ -8,7 +8,7 @@ const Header = (props) => {
     return (
         <header>
             <Link to={'/'}>
-                 <img className="img1" src="/img/store.png"/>
+                 <img className="img1" src="/img/store.png" alt="remera"/>
             </Link>
         </header>
     );

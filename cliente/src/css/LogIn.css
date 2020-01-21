@@ -1,0 +1,19 @@
+.contenedor-button {
+    color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .contenedor-button .button {
+    padding: .7rem .9rem;
+    background-color: #ffd742;
+    border-radius: 10px;
+    color: black;
+    text-transform: uppercase;
+  }
+  
+  .contenedor-button .button:hover  {
+    cursor: pointer;
+  }
+  

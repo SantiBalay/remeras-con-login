@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Auth from '../Auth';
 
+import '../css/Callback.css'
+
 class Callback extends Component {
 
     componentDidMount() {
@@ -8,10 +10,14 @@ class Callback extends Component {
         auth.handleAuthentication()
     }
 
+    componentWillUpdate() {
+        this.props.pegarleApi()
+    }
+
     render() { 
         return ( 
             <div>
-                Loading...
+                <div class="spinner"></div>
             </div>
          );
     }

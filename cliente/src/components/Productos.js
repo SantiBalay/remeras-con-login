@@ -2,36 +2,42 @@ import React, { Component, Fragment } from 'react';
 
 import Producto from './Producto'
 import Buscador from './Buscador'
+import Axios from 'axios'
 
 import '../css/Productos.css'
 
 class Productos extends Component {
 
-    render() { 
 
+    render() { 
 
         const productos = this.props.productos
 
-        return (  
+            return (  
 
+                <Fragment>
+                    
+                    <Buscador
+                        busqueda = {this.props.busqueda}
+                    />
 
-            <Fragment>
-                <Buscador
-                    busqueda = {this.props.busqueda}
-                />
+                    <div className="productos">
+                        <h2> Nuestros Productos </h2>
 
-                <div className="productos">
-                    <h2> Nuestros Productos </h2>
+                        <ul className="lista-productos">
+                            {productos.map( producto => {
+                            return <Producto key={producto.id} data={producto}/>
+                            })}
+                        </ul>
+                    </div>
+                </Fragment>
+             );
+     
 
-                    <ul className="lista-productos">
-                        {productos.map( producto => {
-                        return <Producto key={producto.id} data={producto}/>
-                        })}
-                    </ul>
-                </div>
-            </Fragment>
-        );
     }
+   
+
+
 }
  
 export default Productos;

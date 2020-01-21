@@ -10,9 +10,6 @@ class Contacto extends Component {
     }
 
     render() {
-
-        if( this.props.auth.isAuthenticated() ) {
-
             return (
                 <form onSubmit={this.enviar}>
                     <legend> Formulario de Contacto</legend>
@@ -38,11 +35,8 @@ class Contacto extends Component {
 
                 </form>
             );
-        } else {
-            return (<div> No </div>)
-        }
-
     }
+     
 }
  
 export default Contacto;

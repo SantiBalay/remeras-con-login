@@ -9,11 +9,11 @@ class Producto extends Component {
     
     render() { 
 
-        const {descripcion,id,imagen,nombre,precio} = this.props.data
+        const {id,imagen,nombre,precio} = this.props.data
         
         return ( 
             <li>
-                <img src={`/img/${imagen}.png`}/>
+                <img src={`/img/${imagen}.png`} alt="remera"/>
                 <p> {nombre} <span> $ {precio} </span> </p>
                 <Link to={`/producto/${id}`}> Mas info </Link>
             </li>
